@@ -1,0 +1,9 @@
+// Entity Profile
+
+Profile {
+  id : long { @Id };
+  username : string ;
+  bio: string;
+  image: string;
+  following: boolean ;
+}

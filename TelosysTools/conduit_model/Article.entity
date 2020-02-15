@@ -1,0 +1,8 @@
+// Entity Article
+
+Article {
+  id : long { @Id };
+  slug : string ;
+  title : string ;
+  author : User ; 
+}

@@ -1,0 +1,23 @@
+package ${target.javaPackageFromFolder(${SRC})};
+
+#foreach( $import in $java.imports($entity.attributes) )
+import $import;
+#end
+
+public class $entity.name {
+#foreach( $field in $entity.keyAttributes )
+	// Id
+    private $field.type $field.name; 
+#end
+
+#foreach( $field in $entity.nonKeyAttributes )
+    private #if($field.isFK())$field.referencedEntity#else$field.type#end $field.name;
+#end
+
+#foreach($link in $entity.selectedLinks)
+    /**
+     * Link to ${link.targetEntity.name}.
+     */
+    private $link.fieldType $link.fieldName;
+#end
+}
