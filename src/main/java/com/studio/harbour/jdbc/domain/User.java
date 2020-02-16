@@ -6,11 +6,17 @@ import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.util.Assert;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 	@Id
 	Long id;

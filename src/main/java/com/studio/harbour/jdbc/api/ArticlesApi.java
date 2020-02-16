@@ -10,7 +10,7 @@ import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.service.ArticleService;
 
 @RestController
-@RequestMapping(path = "/articles/")
+@RequestMapping(path = "/articles")
 public class ArticlesApi {
 	private ArticleService articleService;
 	

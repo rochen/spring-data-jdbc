@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.studio.harbour.jdbc.domain.Article;
+import com.studio.harbour.jdbc.domain.Comment;
 import com.studio.harbour.jdbc.domain.Tag;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.repository.ArticleRepository;
+import com.studio.harbour.jdbc.repository.CommentRepository;
 import com.studio.harbour.jdbc.repository.TagRepository;
 import com.studio.harbour.jdbc.repository.UserRepository;
 
@@ -30,7 +32,10 @@ class DomainRepositoryTests {
 	@Autowired
 	TagRepository tagRepo;
 	
+	@Autowired
+	CommentRepository commentRepo;
 
+	
 	@Test
 	@Order(1)
 	public void createUser() {
@@ -115,6 +120,27 @@ class DomainRepositoryTests {
 		article.tag(tag);
 		Article saved = articleRepo.save(article);
 		assertThat(saved.getTags()).isNotEmpty();
+	}
+	
+	@Test
+	@Order(5)
+	public void createComment() {		
+		Optional<Article> articleOpt = articleRepo.findById(1L);
+		Article article = articleOpt.get();
+		Long articleId = article.getId();
+		
+		Optional<User> userOpt = userRepo.findById(1L);
+		User user = userOpt.get();
+		Long userId = user.getId();
+
+		// create comment
+		Comment comment = new Comment();
+		comment.setBody("this is a comment");
+		comment.setArticleId(articleId);
+		comment.setUserId(userId);
+		Comment saved = commentRepo.save(comment);
+
+		assertThat(saved.getId()).isNotNull();
 	}
 
 }
