@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -27,6 +28,7 @@ public class User {
 	private String bio;
 	private String image;
 
+	@Default
 	private Set<FollowRef> follows = new HashSet<FollowRef>();
 
 	public void follow(User target) {
