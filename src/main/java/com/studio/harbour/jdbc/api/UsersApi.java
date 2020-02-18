@@ -1,8 +1,5 @@
 package com.studio.harbour.jdbc.api;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,16 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.service.UserService;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @RestController
-@SuppressWarnings(value = {"rawtypes", "serial"})
 public class UsersApi {
 	private UserService userService;
 	
@@ -32,32 +26,25 @@ public class UsersApi {
 	}
 	
 	@PostMapping(path = "/users/login")
-	public ResponseEntity authentication(@Valid @RequestBody LoginParam loginParam) {
+	public ResponseEntity<UserData> authentication(@Valid @RequestBody LoginParam loginParam) {
 		String email = loginParam.getEmail();
 		UserData userData = userService.findByEmail(email);
-		return ResponseEntity.ok(userResponse(userData));
+		return ResponseEntity.ok(userData);
 	}
 	
 	@PostMapping(path = "/users")
-	public ResponseEntity registration(@Valid @RequestBody RegisterParam registerParam) {
+	public ResponseEntity<UserData> registration(@Valid @RequestBody RegisterParam registerParam) {
 		User user = User.builder().email(registerParam.getEmail())
 					  			  .username(registerParam.getUsername())
 					  			  .password(registerParam.getPassword()).build();
 	    UserData saved = userService.save(user);   
-		return ResponseEntity.status(201).body(userResponse(saved));
+		return ResponseEntity.status(201).body(saved);
 	}
 	
-	private Map<String, UserData> userResponse(UserData user) {
-		return new HashMap<String, UserData>() {{
-			put("user", user);
-		}};
-	}
 }
 
 @Getter
-@JsonTypeName("user")
-@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
-@NoArgsConstructor
+@JsonRootName("user")
 class LoginParam {
     @NotBlank(message = "can't be empty")
     @Email(message = "should be an email")
@@ -67,9 +54,7 @@ class LoginParam {
 }
 
 @Getter
-@JsonTypeName("user")
-@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
-@NoArgsConstructor
+@JsonRootName("user")
 class RegisterParam {
     @NotBlank(message = "can't be empty")
     @Email(message = "should be an email")
