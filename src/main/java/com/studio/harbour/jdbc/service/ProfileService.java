@@ -3,8 +3,8 @@ package com.studio.harbour.jdbc.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.studio.harbour.jdbc.api.ProfileData;
 import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.ProfileData;
 import com.studio.harbour.jdbc.mapper.ProfileMapper;
 import com.studio.harbour.jdbc.repository.UserRepository;
 

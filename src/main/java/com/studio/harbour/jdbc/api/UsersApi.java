@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.UserData;
 import com.studio.harbour.jdbc.service.UserService;
 
 import lombok.Getter;

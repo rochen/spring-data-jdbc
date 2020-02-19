@@ -3,8 +3,8 @@ package com.studio.harbour.jdbc.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.studio.harbour.jdbc.api.UserData;
 import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.UserData;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

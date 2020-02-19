@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.studio.harbour.jdbc.api.UserData;
 import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.UserData;
 import com.studio.harbour.jdbc.mapper.UserMapper;
 import com.studio.harbour.jdbc.repository.UserRepository;
 

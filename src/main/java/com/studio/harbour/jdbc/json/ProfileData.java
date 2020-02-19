@@ -1,4 +1,4 @@
-package com.studio.harbour.jdbc.api;
+package com.studio.harbour.jdbc.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
