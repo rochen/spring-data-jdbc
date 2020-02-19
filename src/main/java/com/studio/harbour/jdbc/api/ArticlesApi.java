@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.json.ArticleData;
-import com.studio.harbour.jdbc.json.ProfileData;
 import com.studio.harbour.jdbc.mapper.ArticleMapper;
 import com.studio.harbour.jdbc.service.ArticleService;
 import com.studio.harbour.jdbc.service.ProfileService;
@@ -46,8 +45,6 @@ public class ArticlesApi {
 		Article next = iterator.next();
 		ArticleData userToArticleData = artmap.userToArticleData(next);
 		
-		ProfileData findByUsername = userService.findByUsername("robinly");
-		userToArticleData.setProfileData(findByUsername);
 		return ResponseEntity.ok(userToArticleData);
 	}
 }

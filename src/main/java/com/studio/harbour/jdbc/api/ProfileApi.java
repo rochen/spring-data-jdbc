@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.ProfileData;
 import com.studio.harbour.jdbc.service.ProfileService;
 
@@ -23,7 +24,8 @@ public class ProfileApi {
 	
 	@GetMapping
 	public ResponseEntity<ProfileData> getProfile(@PathVariable("username") String username) {
-		ProfileData profileData = profileService.findByUsername(username);
+		User user = User.builder().id(1L).build();
+		ProfileData profileData = profileService.findByUsername(username, user);
 		return ResponseEntity.ok(profileData);
 	}
 	

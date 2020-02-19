@@ -28,7 +28,6 @@ public class JdbcConfiguration extends AbstractJdbcConfiguration {
     @Bean
     DataSource dataSource(){
         return new EmbeddedDatabaseBuilder()
-                .generateUniqueName(true)
                 .setType(EmbeddedDatabaseType.H2)     
                 .build();
     }

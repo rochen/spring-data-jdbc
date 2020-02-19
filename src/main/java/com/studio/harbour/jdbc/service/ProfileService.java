@@ -5,23 +5,20 @@ import org.springframework.stereotype.Service;
 
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.ProfileData;
-import com.studio.harbour.jdbc.mapper.ProfileMapper;
 import com.studio.harbour.jdbc.repository.UserRepository;
 
 @Service
 public class ProfileService {
 	private UserRepository userRepo;
-	private ProfileMapper profileMapper;
 		
 	@Autowired
-	public ProfileService(UserRepository userRepo, ProfileMapper profileMapper) {
+	public ProfileService(UserRepository userRepo) {
 		this.userRepo = userRepo;		
-		this.profileMapper = profileMapper;
 	}
 	
-	public ProfileData findByUsername(String username) {
-		User user = userRepo.findByUsername(username);
-		ProfileData profileData = profileMapper.userToProfileData(user);
+	public ProfileData findByUsername(String username, User user) {
+		Long id = user.getId();
+		ProfileData profileData = userRepo.findByUsername(username, id);
 		return profileData;
 	}
 }
