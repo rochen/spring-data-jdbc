@@ -7,30 +7,30 @@ import org.springframework.stereotype.Service;
 
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.UserData;
-import com.studio.harbour.jdbc.mapper.UserMapper;
 import com.studio.harbour.jdbc.repository.UserRepository;
 
 @Service
 public class UserService {
 	private UserRepository userRepo;
-	private UserMapper userMapper;
 		
 	@Autowired
-	public UserService(UserRepository userRepo, UserMapper userMapper) {
+	public UserService(UserRepository userRepo) {
 		this.userRepo = userRepo;		
-		this.userMapper = userMapper;
 	}
 	
 	public UserData save(User user) {
 		User saved = userRepo.save(user);
-		UserData userData = userMapper.userToUserData(saved);
+		UserData userData = UserData.builder()
+						.email(saved.getEmail())
+						.username(saved.getUsername())
+						.bio(saved.getBio())
+						.image(saved.getImage()).build();
+						  
 		return userData;
 	}
 	
-	public UserData findByEmail(String email) {
-		Optional<User> optional = userRepo.findByEmail(email);
-		
-		UserData userData = userMapper.userToUserData(optional.get());
-		return userData;
+	public Optional<UserData> findByEmail(String email) {
+		Optional<UserData> optional = userRepo.findByEmail(email);		
+		return optional;
 	}
 }

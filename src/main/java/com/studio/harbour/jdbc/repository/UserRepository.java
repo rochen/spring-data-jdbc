@@ -9,18 +9,18 @@ import org.springframework.stereotype.Repository;
 
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.ProfileData;
+import com.studio.harbour.jdbc.json.UserData;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-	@Query("select * from User u where u.email = :email")
-	public Optional<User> findByEmail(@Param("email") String email);
+	@Query("SELECT * FROM USER u WHERE u.email = :email")
+	public Optional<UserData> findByEmail(@Param("email") String email);
 
 
-	@Query(rowMapperClass = ProfileRowMapper.class,
-		   value = "select * from User u "
-				 + "left join follow_ref f on u.id = f.follow and f.user = :me "
-				 + "where u.username = :username")
+	@Query(value = "SELECT * FROM USER u "
+				 + "LEFT JOIN FOLLOW_REF f ON u.id = f.follow AND f.user = :me "
+				 + "WHERE u.username = :username")
 	public ProfileData findByUsername(@Param("username") String username, @Param("me") Long myId);
 
 }

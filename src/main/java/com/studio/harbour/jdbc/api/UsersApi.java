@@ -1,5 +1,7 @@
 package com.studio.harbour.jdbc.api;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -29,8 +31,12 @@ public class UsersApi {
 	@PostMapping(path = "/users/login")
 	public ResponseEntity<UserData> authentication(@Valid @RequestBody LoginParam loginParam) {
 		String email = loginParam.getEmail();
-		UserData userData = userService.findByEmail(email);
-		return ResponseEntity.ok(userData);
+		Optional<UserData> optional = userService.findByEmail(email);
+		
+		if(optional.isPresent())
+			return ResponseEntity.ok(optional.get());
+		else
+			return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping(path = "/users")

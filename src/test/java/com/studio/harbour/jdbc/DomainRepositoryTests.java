@@ -74,12 +74,12 @@ class DomainRepositoryTests {
 		self.follow(objective);
 		self.follow(objective2);
 		self = userRepo.save(self);
-		assertThat(self.getFollows().size()).isEqualTo(2);
+		assertThat(self.getFollows().size()).isEqualTo(3);
 		
 		// unfollow
 		self.unfollow(objective2);
 		self = userRepo.save(self);
-		assertThat(self.getFollows().size()).isEqualTo(1);
+		assertThat(self.getFollows().size()).isEqualTo(2);
 
 	}
 	

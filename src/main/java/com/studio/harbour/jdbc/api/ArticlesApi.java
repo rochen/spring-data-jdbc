@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studio.harbour.jdbc.domain.Article;
-import com.studio.harbour.jdbc.json.ArticleData;
-import com.studio.harbour.jdbc.mapper.ArticleMapper;
 import com.studio.harbour.jdbc.service.ArticleService;
-import com.studio.harbour.jdbc.service.ProfileService;
 
 @RestController
 @RequestMapping(path = "/articles")
@@ -30,21 +27,14 @@ public class ArticlesApi {
 		Iterable<Article> all = articleService.getAll();
 		return ResponseEntity.ok(all);
 	}
-	
-	@Autowired
-	ArticleMapper artmap;
-
-	@Autowired
-	ProfileService userService;
-	
+		
 	@GetMapping(path = "/{slug}")
-	public ResponseEntity<ArticleData> getArticle(@PathVariable("slug") String slug) {
+	public ResponseEntity<Article> getArticle(@PathVariable("slug") String slug) {
 		Iterable<Article> all = articleService.getAll();
 		Iterator<Article> iterator = all.iterator();
 		iterator.hasNext();
 		Article next = iterator.next();
-		ArticleData userToArticleData = artmap.userToArticleData(next);
 		
-		return ResponseEntity.ok(userToArticleData);
+		return ResponseEntity.ok(next);
 	}
 }
