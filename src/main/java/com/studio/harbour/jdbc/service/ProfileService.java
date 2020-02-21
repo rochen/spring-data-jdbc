@@ -1,5 +1,7 @@
 package com.studio.harbour.jdbc.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,9 @@ public class ProfileService {
 		this.userRepo = userRepo;		
 	}
 	
-	public ProfileData findByUsername(String username, User user) {
+	public Optional<ProfileData> findByUsername(String username, User user) {
 		Long id = user.getId();
-		ProfileData profileData = userRepo.findByUsername(username, id);
+		Optional<ProfileData> profileData = userRepo.findByUsername(username, id);
 		return profileData;
 	}
 }

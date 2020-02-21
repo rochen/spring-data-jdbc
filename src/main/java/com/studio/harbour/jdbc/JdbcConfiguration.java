@@ -23,9 +23,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.studio.harbour.jdbc.json.ProfileData;
-import com.studio.harbour.jdbc.json.UserData;
-import com.studio.harbour.jdbc.repository.ProfileRowMapper;
-import com.studio.harbour.jdbc.repository.UserRowMapper;
+import com.studio.harbour.jdbc.mapper.ProfileRowMapper;
 
 @Configuration
 @EnableJdbcRepositories
@@ -69,7 +67,6 @@ public class JdbcConfiguration extends AbstractJdbcConfiguration {
 	@Bean
 	QueryMappingConfiguration rowMappers() {
 		return new DefaultQueryMappingConfiguration()
-				.registerRowMapper(ProfileData.class, new ProfileRowMapper())
-				.registerRowMapper(UserData.class, new UserRowMapper()); 					
+				.registerRowMapper(ProfileData.class, new ProfileRowMapper()); 					
 	}
 }

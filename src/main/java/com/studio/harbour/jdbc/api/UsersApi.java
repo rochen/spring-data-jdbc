@@ -31,12 +31,9 @@ public class UsersApi {
 	@PostMapping(path = "/users/login")
 	public ResponseEntity<UserData> authentication(@Valid @RequestBody LoginParam loginParam) {
 		String email = loginParam.getEmail();
-		Optional<UserData> optional = userService.findByEmail(email);
+		Optional<UserData> userData = userService.findByEmail(email);
 		
-		if(optional.isPresent())
-			return ResponseEntity.ok(optional.get());
-		else
-			return ResponseEntity.notFound().build();
+		return ResponseEntity.of(userData);
 	}
 	
 	@PostMapping(path = "/users")
@@ -44,8 +41,10 @@ public class UsersApi {
 		User user = User.builder().email(registerParam.getEmail())
 					  			  .username(registerParam.getUsername())
 					  			  .password(registerParam.getPassword()).build();
-	    UserData saved = userService.save(user);   
-		return ResponseEntity.status(201).body(saved);
+		
+	    UserData saved = userService.register(user);   
+		
+	    return ResponseEntity.status(201).body(saved);
 	}
 	
 }

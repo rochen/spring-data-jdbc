@@ -1,5 +1,7 @@
 package com.studio.harbour.jdbc.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +26,11 @@ public class ProfileApi {
 	
 	@GetMapping
 	public ResponseEntity<ProfileData> getProfile(@PathVariable("username") String username) {
+		// TODO: using real user
 		User user = User.builder().id(1L).build();
-		ProfileData profileData = profileService.findByUsername(username, user);
-		return ResponseEntity.ok(profileData);
+		
+		Optional<ProfileData> profileData = profileService.findByUsername(username, user);		
+		return profileData.isPresent()? ResponseEntity.ok(profileData.get()): ResponseEntity.notFound().build();
 	}
 	
 }
