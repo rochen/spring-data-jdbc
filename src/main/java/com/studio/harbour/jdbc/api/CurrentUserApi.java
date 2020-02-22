@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +31,7 @@ public class CurrentUserApi {
 	}
 	
 	@GetMapping
-	public ResponseEntity<UserData> getCurrentUser(User currentUser) {
-		// TODO: using real user
-		currentUser= userService.testCurrentUser();
-
+	public ResponseEntity<UserData> getCurrentUser(@AuthenticationPrincipal User currentUser) {
 		Long id = currentUser.getId();
 		Optional<UserData> userData = userService.findById(id);
 		
@@ -41,10 +39,7 @@ public class CurrentUserApi {
 	}
 	
 	@PutMapping
-	public ResponseEntity<UserData> updateUser(User currentUser, @RequestBody UpdateUserParam updateUserParam) {
-		// TODO: using real user
-		currentUser= userService.testCurrentUser();
-
+	public ResponseEntity<UserData> updateUser(@AuthenticationPrincipal User currentUser, @RequestBody UpdateUserParam updateUserParam) {
 		UserData userData = userService.update(currentUser, updateUserParam.getEmail(), 
 				updateUserParam.getUsername(), updateUserParam.getPassword(), 
 				updateUserParam.getBio(), updateUserParam.getImage());

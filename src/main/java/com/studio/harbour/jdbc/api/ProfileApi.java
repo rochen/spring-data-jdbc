@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,8 @@ public class ProfileApi {
 	}
 	
 	@GetMapping
-	public ResponseEntity<ProfileData> getProfile(@PathVariable("username") String username) {
-		// TODO: using real user
-		User user = User.builder().id(1L).build();
+	public ResponseEntity<ProfileData> getProfile(@AuthenticationPrincipal User user,
+												  @PathVariable("username") String username) {
 		
 		Optional<ProfileData> profileData = profileService.findByUsername(username, user);		
 		return profileData.isPresent()? ResponseEntity.ok(profileData.get()): ResponseEntity.notFound().build();

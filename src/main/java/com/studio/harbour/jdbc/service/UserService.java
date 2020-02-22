@@ -21,10 +21,6 @@ public class UserService {
 		this.userMapper = userMapper;
 	}
 
-	public User testCurrentUser() {
-		return userRepo.findById(1L).get();
-	}
-
 	public UserData register(User user) {
 		User saved = userRepo.save(user);
 		UserData userData = userMapper.entityToData(saved);
