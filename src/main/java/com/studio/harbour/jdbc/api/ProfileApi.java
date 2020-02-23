@@ -26,10 +26,10 @@ public class ProfileApi {
 	}
 	
 	@GetMapping
-	public ResponseEntity<ProfileData> getProfile(@AuthenticationPrincipal User user,
-												  @PathVariable("username") String username) {
+	public ResponseEntity<ProfileData> getProfile(@PathVariable("username") String username,
+												  @AuthenticationPrincipal User currentUser) {
 		
-		Optional<ProfileData> profileData = profileService.findByUsername(username, user);		
+		Optional<ProfileData> profileData = profileService.findByUsername(username, currentUser);		
 		return profileData.isPresent()? ResponseEntity.ok(profileData.get()): ResponseEntity.notFound().build();
 	}
 	

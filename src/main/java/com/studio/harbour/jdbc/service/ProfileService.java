@@ -18,8 +18,9 @@ public class ProfileService {
 		this.userRepo = userRepo;		
 	}
 	
-	public Optional<ProfileData> findByUsername(String username, User user) {
-		Long id = user == null? null: user.getId();
+	public Optional<ProfileData> findByUsername(String username, User currentUser) {
+		// current user might be null if no authentication
+		Long id = currentUser == null? null: currentUser.getId();
 		Optional<ProfileData> profileData = userRepo.findObjectByUsername(username, id);
 		return profileData;
 	}
