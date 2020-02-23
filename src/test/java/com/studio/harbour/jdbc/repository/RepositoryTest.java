@@ -1,4 +1,4 @@
-package com.studio.harbour.jdbc;
+package com.studio.harbour.jdbc.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,14 +15,10 @@ import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.domain.Comment;
 import com.studio.harbour.jdbc.domain.Tag;
 import com.studio.harbour.jdbc.domain.User;
-import com.studio.harbour.jdbc.repository.ArticleRepository;
-import com.studio.harbour.jdbc.repository.CommentRepository;
-import com.studio.harbour.jdbc.repository.TagRepository;
-import com.studio.harbour.jdbc.repository.UserRepository;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-class DomainRepositoryTests {
+class RepositoryTest {
 	@Autowired
 	UserRepository userRepo;
 

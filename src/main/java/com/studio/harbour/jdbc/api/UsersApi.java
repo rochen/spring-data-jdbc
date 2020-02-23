@@ -18,7 +18,10 @@ import com.studio.harbour.jdbc.json.UserData;
 import com.studio.harbour.jdbc.security.JwtService;
 import com.studio.harbour.jdbc.service.UserService;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @RestController
 public class UsersApi {
@@ -59,6 +62,9 @@ public class UsersApi {
 }
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonRootName("user")
 class LoginParam {
     @NotBlank(message = "can't be empty")
@@ -69,6 +75,9 @@ class LoginParam {
 }
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonRootName("user")
 class RegisterParam {
     @NotBlank(message = "can't be empty")
