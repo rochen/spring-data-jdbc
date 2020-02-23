@@ -19,8 +19,8 @@ public class ProfileService {
 	}
 	
 	public Optional<ProfileData> findByUsername(String username, User user) {
-		Long id = user.getId();
-		Optional<ProfileData> profileData = userRepo.findByUsername(username, id);
+		Long id = user == null? null: user.getId();
+		Optional<ProfileData> profileData = userRepo.findObjectByUsername(username, id);
 		return profileData;
 	}
 }

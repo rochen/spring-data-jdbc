@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.UserData;
+import com.studio.harbour.jdbc.security.JwtService;
 import com.studio.harbour.jdbc.service.UserService;
 
 import lombok.Getter;
@@ -22,18 +23,25 @@ import lombok.Getter;
 @RestController
 public class UsersApi {
 	private UserService userService;
+	private JwtService jwtService;
 	
 	@Autowired
-	public UsersApi(UserService userService) {
+	public UsersApi(UserService userService, JwtService jwtService) {
 		this.userService = userService;
+		this.jwtService = jwtService;
 	}
 	
 	@PostMapping(path = "/users/login")
 	public ResponseEntity<UserData> authentication(@Valid @RequestBody LoginParam loginParam) {
 		String email = loginParam.getEmail();
-		Optional<UserData> userData = userService.findByEmail(email);
-		
-		return ResponseEntity.of(userData);
+		Optional<UserData> optional = userService.findByEmail(email);
+		if(optional.isPresent()) {
+			UserData user = optional.get();
+			UserData userData = jwtService.getUserWithToken(user);
+			return ResponseEntity.ok(userData);
+		} else {
+			return ResponseEntity.notFound().build();			
+		}
 	}
 	
 	@PostMapping(path = "/users")
@@ -43,8 +51,9 @@ public class UsersApi {
 					  			  .password(registerParam.getPassword()).build();
 		
 	    UserData saved = userService.register(user);   
+		UserData userData = jwtService.getUserWithToken(saved);
 		
-	    return ResponseEntity.status(201).body(saved);
+	    return ResponseEntity.status(201).body(userData);
 	}
 	
 }
