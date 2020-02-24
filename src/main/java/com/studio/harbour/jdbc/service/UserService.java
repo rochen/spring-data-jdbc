@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.UserData;
@@ -60,4 +61,12 @@ public class UserService {
 		UserData userData = userMapper.entityToData(saved);
 		return userData;		
 	}
+	
+    public UserData getJwtToken(UserData userData, String authorization) {
+    	String[] strings = StringUtils.tokenizeToStringArray(authorization, " ");
+    	String token = strings[1];
+    	userData.setToken(token);
+		return userData;
+    }
+    
 }

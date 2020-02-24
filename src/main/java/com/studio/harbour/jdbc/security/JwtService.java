@@ -35,5 +35,4 @@ public class JwtService {
         return Optional.ofNullable(subject);
     }
     
-    
 }
