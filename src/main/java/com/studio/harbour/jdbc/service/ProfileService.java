@@ -24,4 +24,26 @@ public class ProfileService {
 		Optional<ProfileData> profileData = userRepo.findObjectByUsername(username, id);
 		return profileData;
 	}
+	
+	public Optional<ProfileData> followUser(String username, User currentUser) {
+		Optional<User> object = userRepo.findByUsername(username);
+		if(object.isPresent()) {
+			currentUser.follow(object.get());
+			userRepo.save(currentUser);
+			return findByUsername(username, currentUser);
+		} else {
+			return Optional.empty();
+		}
+	}
+	
+	public Optional<ProfileData> unfollowUser(String username, User currentUser) {
+		Optional<User> object = userRepo.findByUsername(username);
+		if(object.isPresent()) {
+			currentUser.unfollow(object.get());
+			userRepo.save(currentUser);
+			return findByUsername(username, currentUser);
+		} else {
+			return Optional.empty();
+		}
+	}
 }
