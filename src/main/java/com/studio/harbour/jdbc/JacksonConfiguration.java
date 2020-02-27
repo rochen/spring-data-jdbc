@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.github.slugify.Slugify;
 
 @Configuration
 public class JacksonConfiguration {
@@ -20,5 +21,10 @@ public class JacksonConfiguration {
         	builder.featuresToEnable(SerializationFeature.WRAP_ROOT_VALUE);
             builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         };
+    }
+    
+    @Bean
+    public Slugify slugify() {
+    	return new Slugify();
     }
 }

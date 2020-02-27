@@ -11,9 +11,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.util.Assert;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article {
 	@Id
 	private Long id;
@@ -30,8 +39,11 @@ public class Article {
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 	
+	// tag section
+	
+	@Default
 	private List<ArticleTag> tags = new ArrayList<ArticleTag>();
-
+	
 	public void tag(Tag tag) {
 		tags.add(createTag(tag));
 	}
@@ -54,6 +66,9 @@ public class Article {
 		return at;
 	}
 	
+	// favorites section
+	
+	@Default
 	private Set<ArticleFavorite> favorites = new HashSet<ArticleFavorite>();
 
 	public void like(User reader) {
