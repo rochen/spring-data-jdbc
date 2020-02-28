@@ -3,12 +3,6 @@ package com.studio.harbour.jdbc.api;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
-import com.studio.harbour.jdbc.domain.Article;
-import com.studio.harbour.jdbc.domain.User;
-import com.studio.harbour.jdbc.json.ArticleData;
-import com.studio.harbour.jdbc.service.ArticleService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.studio.harbour.jdbc.domain.Article;
+import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.ArticleData;
+import com.studio.harbour.jdbc.service.ArticleService;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,7 +46,7 @@ public class ArticlesApi {
 		
 		ArticleData articleData = articleService.createArticle(article, tagList);
 		
-		return ResponseEntity.ok(articleData);
+		return ResponseEntity.status(201).body(articleData);
 	}
 }
 

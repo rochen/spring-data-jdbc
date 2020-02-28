@@ -15,6 +15,7 @@ import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.domain.Comment;
 import com.studio.harbour.jdbc.domain.Tag;
 import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.CommentData;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
@@ -139,4 +140,12 @@ class RepositoryTest {
 		assertThat(saved.getId()).isNotNull();
 	}
 
+	@Test @Order(6)
+	public void getCommentData() {
+		Optional<CommentData> optional = commentRepo.findCommentDataById(1L, 1L);
+		assertThat(optional).isPresent();
+		CommentData commentData = optional.get();
+		
+		assertThat(commentData.getProfileData()).isNotNull();
+	}
 }
