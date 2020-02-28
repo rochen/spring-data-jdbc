@@ -3,20 +3,19 @@ package com.studio.harbour.jdbc.api;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.ArticleData;
 import com.studio.harbour.jdbc.service.ArticleService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,12 +30,6 @@ public class ArticlesApi {
 	@Autowired
 	public ArticlesApi(ArticleService articleService) {
 		this.articleService = articleService;
-	}
-	
-	@GetMapping
-	public ResponseEntity<Iterable<Article>> getArticles() {
-		Iterable<Article> all = articleService.getAll();
-		return ResponseEntity.ok(all);
 	}
 	
 	@PostMapping

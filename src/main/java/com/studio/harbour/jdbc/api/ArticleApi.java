@@ -1,9 +1,13 @@
 package com.studio.harbour.jdbc.api;
 
-import java.util.Iterator;
 import java.util.Optional;
 
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.studio.harbour.jdbc.domain.User;
+import com.studio.harbour.jdbc.json.ArticleData;
+import com.studio.harbour.jdbc.service.ArticleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.annotation.JsonRootName;
-import com.studio.harbour.jdbc.domain.Article;
-import com.studio.harbour.jdbc.domain.User;
-import com.studio.harbour.jdbc.json.ArticleData;
-import com.studio.harbour.jdbc.service.ArticleService;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,14 +35,11 @@ public class ArticleApi {
 		this.articleService = articleService;
 	}
 	
-	@GetMapping(path = "/{slug}")
-	public ResponseEntity<Article> getArticle(@PathVariable("slug") String slug) {
-		Iterable<Article> all = articleService.getAll();
-		Iterator<Article> iterator = all.iterator();
-		iterator.hasNext();
-		Article next = iterator.next();
-		
-		return ResponseEntity.ok(next);
+	@GetMapping
+	public ResponseEntity<ArticleData> getArticle(@PathVariable("slug") String slug,
+											  @AuthenticationPrincipal User currentUser) {
+		Optional<ArticleData> articleData = articleService.getArticle(slug, currentUser);		
+		return ResponseEntity.of(articleData);
 	}
 	
 	@PutMapping

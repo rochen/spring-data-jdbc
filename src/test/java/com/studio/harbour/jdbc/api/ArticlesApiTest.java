@@ -3,9 +3,15 @@ package com.studio.harbour.jdbc.api;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studio.harbour.jdbc.json.ArticleData;
+import com.studio.harbour.jdbc.json.UserData;
+import com.studio.harbour.jdbc.security.JwtService;
 
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -19,11 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studio.harbour.jdbc.json.ArticleData;
-import com.studio.harbour.jdbc.json.UserData;
-import com.studio.harbour.jdbc.security.JwtService;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
@@ -36,6 +37,15 @@ public class ArticlesApiTest {
 	
 	@Autowired
 	JwtService jwtService;
+
+	@Test @Order(1)
+	public void getArticle() throws Exception {
+		String slug = "tunisia-is-nice";
+		mockMvc.perform(get("/articles/{slug}", slug))
+				.andDo(print())
+				.andExpect(status().isOk());
+
+	}
 
 	@Test @Order(1)
 	public void createArticle() throws Exception {

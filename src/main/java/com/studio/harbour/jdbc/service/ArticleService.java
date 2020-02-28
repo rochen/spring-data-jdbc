@@ -88,7 +88,15 @@ public class ArticleService {
 		return deleted;
 	}
 	
-	public Iterable<Article> getAll() {
-		return articleRepo.findAll();
+	public Optional<ArticleData> getArticle(String slug, User currentUser) {
+		ArticleData articleData = null;
+		Optional<Article> optional = articleRepo.findBySlug(slug);
+		if(optional.isPresent()) {
+			Article article = optional.get();
+			Long articleId = article.getId();
+			Long userId = currentUser == null? 0: currentUser.getId();
+			articleData = articleRepo.findArticleDataById(articleId, userId);
+		}
+		return Optional.ofNullable(articleData);
 	}
 }
