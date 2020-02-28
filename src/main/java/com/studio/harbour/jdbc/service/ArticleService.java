@@ -2,6 +2,7 @@ package com.studio.harbour.jdbc.service;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,18 +31,16 @@ public class ArticleService {
 	
 	@Transactional
 	public ArticleData createArticle(Article article, String[] tagList) {
-		if(tagList != null) {
-			for(String name: tagList) {
-				Optional<Tag> optional = tagRepo.findByName(name);
-				if(optional.isPresent()) {
-					article.tag(optional.get());
-				} else {
-					// new a tag
-					Tag tag = Tag.builder().name(name).build();
-					tagRepo.save(tag);
-					article.tag(tag);
-				}			
-			}
+		for(String name: ArrayUtils.nullToEmpty(tagList)) {
+			Optional<Tag> optional = tagRepo.findByName(name);
+			if(optional.isPresent()) {
+				article.tag(optional.get());
+			} else {
+				// new a tag
+				Tag tag = Tag.builder().name(name).build();
+				tagRepo.save(tag);
+				article.tag(tag);
+			}			
 		}
 		
 		article.setSlug(slugify.slugify(article.getTitle()));
