@@ -1,5 +1,6 @@
 package com.studio.harbour.jdbc.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jdbc.repository.query.Query;
@@ -24,4 +25,12 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 	
 	@Query(value = "select * from comment c where c.article_id = :articleId and c.id = :id")
 	public Optional<Comment> findByArticleAndId(@Param("articleId") Long articleId, @Param("id") Long id);
+
+	@Query(value = "select c.id, c.body, c.created_at, c.updated_at, u.username, u.bio, u.image, f.follow "
+			+ "from comment c "
+			+ "join user u on u.id = c.user_id "
+			+ "left join follow_ref f on f.follow = u.id and f.user = :userId "
+			+ "where c.article_id = :articleId",
+			rowMapperClass = CommentRowMapper.class)
+	public List<CommentData> findByArticle(@Param("articleId") Long articleId, @Param("userId") Long userId);
 }

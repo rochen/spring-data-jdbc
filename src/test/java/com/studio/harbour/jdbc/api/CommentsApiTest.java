@@ -1,6 +1,7 @@
 package com.studio.harbour.jdbc.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,6 +60,18 @@ public class CommentsApiTest {
 				.header("Authorization", authorization))
 				.andDo(print())
 				.andExpect(status().isNoContent());
+	}
+	
+	@Test
+	public void getComment() throws Exception {
+		String authorization = getAuthorization("robinly");
+		
+		String slug = "tunisia-is-nice";
+				
+		mockMvc.perform(get("/articles/{slug}/comments/", slug)
+				.header("Authorization", authorization))
+				.andDo(print())
+				.andExpect(status().isOk());
 	}
 		
 	private String getAuthorization(String username) {

@@ -78,6 +78,7 @@ public class ArticleService {
 	
 	@Transactional
 	public boolean deleteArticle(String slug, User currentUser) {
+		// TODO check if this user can delete this article
 		boolean deleted = false;
 		Optional<Article> optional = articleRepo.findBySlug(slug);
 		if(optional.isPresent()) {

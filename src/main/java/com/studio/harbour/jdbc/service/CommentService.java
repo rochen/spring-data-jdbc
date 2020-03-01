@@ -1,5 +1,6 @@
 package com.studio.harbour.jdbc.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.domain.Comment;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.CommentData;
+import com.studio.harbour.jdbc.json.CommentsData;
 import com.studio.harbour.jdbc.repository.ArticleRepository;
 import com.studio.harbour.jdbc.repository.CommentRepository;
 
@@ -47,7 +49,7 @@ public class CommentService {
 
 	public boolean deleteComment(String slug, Long id, User currentUser) {	
 		boolean deleted = false;
-		
+		// TODO check if this user can delete this comment
 		Optional<Article> findBySlug = articleRepo.findBySlug(slug);		
 		if(findBySlug.isPresent()) {
 			Long articleId = findBySlug.get().getId();
@@ -58,6 +60,19 @@ public class CommentService {
 			}
 		}
 		return deleted;
+	}
+
+	public Optional<CommentsData> getComments(String slug, User currentUser) {
+		CommentsData comments = null;
+		
+		Optional<Article> findBySlug = articleRepo.findBySlug(slug);
+		if(findBySlug.isPresent()) {
+			Long articleId = findBySlug.get().getId();
+			Long userId = currentUser.getId();
+			List<CommentData> findByArticle = commentRepo.findByArticle(articleId, userId);
+			comments = CommentsData.builder().list(findByArticle).build();
+		}
+		return Optional.ofNullable(comments);		
 	}
 	
 }

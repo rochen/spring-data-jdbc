@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.CommentData;
+import com.studio.harbour.jdbc.json.CommentsData;
 import com.studio.harbour.jdbc.service.CommentService;
 
 import lombok.AllArgsConstructor;
@@ -54,6 +56,14 @@ public class CommentsApi {
 		
 		boolean deleted = commentService.deleteComment(slug, id, currentUser);
 		return deleted? ResponseEntity.noContent().build(): ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping
+	public ResponseEntity<CommentsData> getComments(@PathVariable("slug") String slug,
+										 @AuthenticationPrincipal User currentUser) {
+		
+		Optional<CommentsData> comments = commentService.getComments(slug, currentUser);
+		return ResponseEntity.of(comments);
 	}
 }
 
