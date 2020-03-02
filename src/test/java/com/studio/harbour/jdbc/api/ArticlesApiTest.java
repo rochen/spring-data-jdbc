@@ -106,6 +106,28 @@ public class ArticlesApiTest {
 		
 	}
 	
+	@Test @Order(10)
+	public void favorite() throws Exception {
+		String authorization = getAuthorization("robinly");
+
+		mockMvc.perform(post("/articles/{slug}/favorite", "tunisia-is-nice")
+							.header("Authorization", authorization))
+					.andDo(print())
+					.andExpect(status().isOk());
+
+	}
+	
+	@Test @Order(11)
+	public void unfavorite() throws Exception {
+		String authorization = getAuthorization("robinly");
+
+		mockMvc.perform(delete("/articles/{slug}/favorite", "tunisia-is-nice")
+							.header("Authorization", authorization))
+					.andDo(print())
+					.andExpect(status().isOk());
+		
+	}
+	
 	private String getAuthorization(String username) {
 		UserData user = UserData.builder().username(username).build();
 		user = jwtService.getUserWithToken(user);

@@ -99,4 +99,34 @@ public class ArticleService {
 		}
 		return Optional.ofNullable(articleData);
 	}
+
+	public Optional<ArticleData> favorite(String slug, User currentUser) {
+		ArticleData articleData = null;
+		Optional<Article> optional = articleRepo.findBySlug(slug);
+		if(optional.isPresent()) {
+			Article article = optional.get();
+			article.like(currentUser);
+			articleRepo.save(article);
+			
+			Long articleId = article.getId();
+			Long userId = currentUser.getId();
+			articleData = articleRepo.findArticleDataById(articleId, userId);
+		}
+		return Optional.ofNullable(articleData);
+	}
+
+	public Optional<ArticleData> unfavorite(String slug, User currentUser) {
+		ArticleData articleData = null;
+		Optional<Article> optional = articleRepo.findBySlug(slug);
+		if(optional.isPresent()) {
+			Article article = optional.get();
+			article.unlike(currentUser);
+			articleRepo.save(article);
+			
+			Long articleId = article.getId();
+			Long userId = currentUser.getId();
+			articleData = articleRepo.findArticleDataById(articleId, userId);
+		}
+		return Optional.ofNullable(articleData);
+	}
 }

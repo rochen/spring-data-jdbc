@@ -40,6 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/user").authenticated()
 			.antMatchers("/articles", "/articles/feed").authenticated()
+			.antMatchers("/articles/*/favorite").authenticated()
 			.antMatchers(HttpMethod.GET,"/articles/*").permitAll()
 			.anyRequest().permitAll();
 

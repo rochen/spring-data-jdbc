@@ -15,9 +15,10 @@ import com.studio.harbour.jdbc.mapper.ArticleResultSetExtractor;
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 	
 	@Query(value = "SELECT a.slug, a.title, a.description, a.body, a.created_at, a.updated_at, "
-				+ "u.username, u.bio, u.image, t.name tag, f.follow following FROM ARTICLE a "
+				+ "u.id user_id, u.username, u.bio, u.image, t.name tag, f.follow following, af.user favoriter FROM ARTICLE a "
 				+ "join user u on u.id = a.user_id "
 				+ "left join article_tag at on at.article = a.id "
+				+ "left join article_favorite af on af.article =  a.id "
 				+ "left join tag t on t.id = at.tag "
 				+ "left join follow_ref f on f.follow = a.user_id and f.user = :user "
 				+ "where a.id = :id",
