@@ -6,15 +6,18 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.studio.harbour.jdbc.domain.Article;
 import com.studio.harbour.jdbc.domain.User;
 import com.studio.harbour.jdbc.json.ArticleData;
+import com.studio.harbour.jdbc.repository.ArticleRepository;
 import com.studio.harbour.jdbc.service.ArticleService;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +29,9 @@ import lombok.NoArgsConstructor;
 @RequestMapping(path = "/articles")
 public class ArticlesApi {
 	private ArticleService articleService;
+	
+	@Autowired
+	ArticleRepository repo;
 	
 	@Autowired
 	public ArticlesApi(ArticleService articleService) {
@@ -48,6 +54,26 @@ public class ArticlesApi {
 		
 		return ResponseEntity.status(201).body(articleData);
 	}
+	
+    @GetMapping(path = "feed")
+    public ResponseEntity getFeed(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                  @RequestParam(value = "limit", defaultValue = "20") int limit,
+                                  @AuthenticationPrincipal User user) {
+    	
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity getArticles(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                      @RequestParam(value = "limit", defaultValue = "20") int limit,
+                                      @RequestParam(value = "tag", required = false) String tag,
+                                      @RequestParam(value = "favorited", required = false) String favoritedBy,
+                                      @RequestParam(value = "author", required = false) String author,
+                                      @AuthenticationPrincipal User user) {
+        
+    	ArticleData findByTest = repo.findArticleDataById(user.getId(), 1L);
+    	return ResponseEntity.ok(findByTest);
+    }
 }
 
 @Getter

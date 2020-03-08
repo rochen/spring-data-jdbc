@@ -12,7 +12,7 @@ import com.studio.harbour.jdbc.json.ArticleData;
 import com.studio.harbour.jdbc.mapper.ArticleResultSetExtractor;
 
 @Repository
-public interface ArticleRepository extends CrudRepository<Article, Long> {
+public interface ArticleRepository extends CrudRepository<Article, Long>, AdvancedArticleRepository {
 	
 	@Query(value = "SELECT a.slug, a.title, a.description, a.body, a.created_at, a.updated_at, "
 				+ "u.id user_id, u.username, u.bio, u.image, t.name tag, f.follow following, af.user favoriter FROM ARTICLE a "
@@ -28,5 +28,5 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 	
 	@Query(value = "select * from article a where a.slug = :slug")
 	public Optional<Article> findBySlug(@Param("slug") String slug);
-		
+	
 }
